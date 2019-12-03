@@ -1,5 +1,6 @@
 WebContent/WEB-INF/lib
 src/EncrytoUtil.java
+db.sql
 .classpath
 .project
 .settings/

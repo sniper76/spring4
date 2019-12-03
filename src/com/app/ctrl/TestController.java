@@ -46,4 +46,15 @@ public class TestController {
     	mav.addObject("message", "Hi man");
     	return mav;
     }
+    
+    @RequestMapping(value = "/testJson")
+    public ModelAndView testJson(ModelMap model) throws Exception {
+    	String listview = testService.selectNow();
+    	
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName("pageJsonReport");
+    	mav.addObject("result", "success");
+    	mav.addObject("message", listview);
+    	return mav;
+    }
 }

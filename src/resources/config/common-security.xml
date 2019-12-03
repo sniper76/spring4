@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	  xmlns:sec="http://www.springframework.org/schema/security"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/security
+            http://www.springframework.org/schema/security/spring-security.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
+        
+    <!-- 인증/인가 예외 리소스 정의 
+    -->
+    <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
+
+    <sec:http pattern="/resources/**" security="none" />
+
+	<!-- <http pattern="/**/login" security="none"></http>
+
+	<http pattern="/**/loginFail" security="none"></http> -->
+	
+      <sec:http auto-config="true" use-expressions="true">
+        <sec:intercept-url pattern="/admin/usermanager/**" access="hasAuthority('USER_MANAGER')" />
+        <sec:intercept-url pattern="/manager/**" access="hasRole('USER')" />
+        <sec:intercept-url pattern="/member/**" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/**" access="permitAll" />
+        <sec:form-login
+            login-page="/login"
+            login-processing-url="/user/login"
+            username-parameter="id"
+            password-parameter="pwd"
+            default-target-url="/index"
+            authentication-failure-url="/login?error=true"
+            />
+        <sec:logout logout-success-url="/index" />
+        <sec:csrf disabled="true"/>
+        <!-- Spring security automatically enables csrf, which automatically disabled GET logouts.
+        You can fix this by disabling csrf protection by settings <csrf disabled="true"/> in the <http> ,
+        or just using a POST. -->
+        
+        <!-- 
+         -->
+        <sec:session-management>
+            <sec:concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
+        </sec:session-management>
+    </sec:http>
+ 
+<!--    
+    <authentication-manager>
+        <authentication-provider>
+            <jdbc-user-service
+                id="jdbcUserService"
+                data-source-ref="dataSource"
+                users-by-username-query="select id, pwd, enabled from member where id=?"
+                authorities-by-username-query="select id, authority from member where id=?"/>
+        </authentication-provider>
+    </authentication-manager>
+ --><!-- 인증 실패에 대한 처리 리소스 정의 --> 
+  
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <!-- 
+    <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+    <bean id=" authenticationEntryPoint " class="com.insilicogen.example.security.StatelessAuthenticationEntryPoint" />
+     -->
+
+    <!-- 인증 객체 생성을 위한 필터 설정 
+    <bean id="loginFilter" class="com.insilicogen.example.security.StatelessLoginFilter">
+        <constructor-arg name="urlMapping" value="/api/login" />
+        <constructor-arg name="authManager" ref="authManager" />
+    </bean>
+    --> 
+     
+    <sec:authentication-manager>
+        <sec:authentication-provider ref="customAuthenticationProvider"  />
+    </sec:authentication-manager>
+     
+    <bean id="customAuthenticationProvider" class="com.app.auth.CustomAuthenticationProvider"/> 
+    <bean id="userDeSer" class="com.app.svc.impl.CustomUserDetailsServiceImpl"/>
+    <bean id="userAuthDAO" class="com.app.dao.UserAuthDao"/>
+</beans>
