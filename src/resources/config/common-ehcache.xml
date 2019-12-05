@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+     
+<!-- Annotation 기반 캐시 사용 (@Cacheable, @CacheEvict..) -->
+<cache:annotation-driven cache-manager="ehCacheManager" />
+
+<!-- EHCache 기반 CacheManager 설정 -->
+<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <property name="cacheManager">
+    	<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    		<property name="configLocation" value="classpath:resources/config/ehcache.xml" />
+    	</bean>
+    </property>
+</bean>
+
+<!-- ehcache.xml 설정 로드 -->
+<bean id="cacheLoaderFactory" class="com.app.cache.AppCacheLoaderFactory">
+    <property name="cacheManager">
+    	<ref bean="ehCacheManager" />
+    </property>
+    <property name="comMDao">
+    	<ref bean="comMDao" />
+    </property>
+</bean>
+
+</beans>

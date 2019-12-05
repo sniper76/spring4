@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="custom" uri="/WEB-INF/tlds/custom.tld"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +34,7 @@
 </head>
 <body>
   
-<h3>memberMain !</h3>
+<h3><custom:messageTag msgId="11" langCd="KO" sysCd="NMI" empty="Hi member" /></h3>
   
 memberMain: <sec:authentication property="name"/>멤버 화면
 

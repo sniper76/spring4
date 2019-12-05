@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="custom" uri="/WEB-INF/tlds/custom.tld"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>Hi INDEX</h3>
+<h3><custom:messageTag msgId="12" langCd="KO" sysCd="NMI" empty="Hi INDEX" /></h3>
   
 <%--로그인을 거친 이용자일 경우에는 이용자의 로그인 ID를 보여준다 --%>
 <sec:authorize access="isAuthenticated()">

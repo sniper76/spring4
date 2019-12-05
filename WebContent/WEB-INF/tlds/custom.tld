@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>Custom Tag</description>
+	<tlib-version>2.1</tlib-version>
+	<short-name>custom</short-name>
+	<uri>/WEB-INF/tlds/custom.tld</uri>
+	<tag>
+		<name>messageTag</name>
+		<tag-class>com.app.tags.MessageTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>msgId</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>langCd</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>sysCd</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>empty</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+</taglib>
